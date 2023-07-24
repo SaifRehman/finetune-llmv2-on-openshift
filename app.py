@@ -7,18 +7,17 @@ from trl import SFTTrainer
 
 def train():
     train_dataset = load_dataset("tatsu-lab/alpaca", split="train")
-    tokenizer = AutoTokenizer.from_pretrained("Salesforce/xgen-7b-8k-base", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("daryl149/llama-2-7b-chat-hf", trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
-        "Salesforce/xgen-7b-8k-base", load_in_4bit=True, torch_dtype=torch.float16, device_map="auto"
+        "daryl149/llama-2-7b-chat-hf", load_in_4bit=True, torch_dtype=torch.float16, device_map="auto"
     )
     model.resize_token_embeddings(len(tokenizer))
     model = prepare_model_for_int8_training(model)
     peft_config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, bias="none", task_type="CAUSAL_LM")
     model = get_peft_model(model, peft_config)
-
     training_args = TrainingArguments(
-        output_dir="xgen-7b-tuned-alpaca-l1",
+        output_dir="llma-finetuned-7b",
         per_device_train_batch_size=4,
         optim="adamw_torch",
         logging_steps=100,
