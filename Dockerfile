@@ -16,7 +16,7 @@ RUN pip install -U "pip>=19.3.1" && \
     pip install huggingface_hub && \
     pip install -r requirements.txt
 
-RUN huggingface-cli login --token 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
+RUN huggingface-cli login --token xxxx
 
 # Run the application
 CMD python app.py
