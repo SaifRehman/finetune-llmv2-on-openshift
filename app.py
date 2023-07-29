@@ -17,7 +17,7 @@ def train():
     peft_config = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.05, bias="none", task_type="CAUSAL_LM")
     model = get_peft_model(model, peft_config)
     training_args = TrainingArguments(
-        output_dir="llma-finetuned-7b2. ",
+        output_dir="llma-finetuned-7b2",
         per_device_train_batch_size=4,
         optim="adamw_torch",
         logging_steps=100,
